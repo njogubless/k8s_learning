@@ -44,7 +44,7 @@ Example. A statefulSet controller can use the Headless Service to control the do
 ___
 If one needs even more flexibility to expose applications, you can use Ingress object. Ingress provides a means to expose HTTP and HTTPS routes from outside the cluster for a service within the cluster.
 It does this by configuring routing rules that a user can set and implement with an ingress controller.
-![Screenshot from 2025-07-25 10-32-38.png](:/251b7835f2de42909b7e999e79da4494)
+![shot from 2025-07-25 10-32-38.png](:/251b7835f2de42909b7e999e79da4494)
 
 Standard feature of ingress controllers may include:
 
@@ -94,7 +94,7 @@ volumes:
        # this field is optional
         type" directory
 ```
-![Screenshot from 2025-07-25 11-44-48.png](:/e2ffb1470d2f44fd8408bd6645c58bf9)
+![shot from 2025-07-25 11-44-48.png](:/e2ffb1470d2f44fd8408bd6645c58bf9)
 
 Volumes allow sharinf data within multiple pods within the same cluster and also between multiple containers within the same pod.
 This provides great flexibility when you want to use a sidecar Pattern.
@@ -156,7 +156,7 @@ The example shows a PersistentVolume that uses an AWS EBS volume implemented wit
 
 ___
 It is possible to operate storage clusters directly in Kubernetes. Projects like Rook provide cloud-native storage orchestration and integrate with battle tested storage solutions like Ceph.
-![Screenshot from 2025-07-25 12-09-44.png](:/cb5b388b849f4bfb8efd6b65eda7e1c1)
+![shot from 2025-07-25 12-09-44.png](:/cb5b388b849f4bfb8efd6b65eda7e1c1)
 ____
 Configuring Objects
 -
