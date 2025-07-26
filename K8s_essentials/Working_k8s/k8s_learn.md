@@ -32,7 +32,7 @@ Alot of pods woul require manual networking , we get to use service and ingress 
 Services can be used to expose a set of pods as a network service. 
 
 - ClusterIp: its the most common service type. A ClusterIp is a virtual Ip insde K8S that can be used as a single endpoint for a set of pods. This service type can be used as a round-robin load balancer.::Pod X sends traffic to ClusterIp.. and ClusterIp distributes the traffic to backend Pods.
-  ![Screenshot from 2025-07-25 10-06-31.png](:/5365d1a76e644d32a5deb85e7f468800)
+  ![Kurbenetes cluster](/Images/k8s_cluster.png)
 
 - NodePort: The nodePort service type extends the ClusterIp by adding simple routing rules. It opens a port(default btn 30000 - 32767) on every node in the cluster and maps it to the clusterIp. This Service type allows routing external traffic to the cluster.
 - LoadBalancer: The loadBalancer sevicetype extends the nodePort by deploying an external LoadBalancer Instance. This will work if you're in an environment that has API to configure a LoadBalancer Instance like GCP, AWS, AZURE or even openstack.
@@ -44,7 +44,7 @@ Example. A statefulSet controller can use the Headless Service to control the do
 ___
 If one needs even more flexibility to expose applications, you can use Ingress object. Ingress provides a means to expose HTTP and HTTPS routes from outside the cluster for a service within the cluster.
 It does this by configuring routing rules that a user can set and implement with an ingress controller.
-![shot from 2025-07-25 10-32-38.png](:/251b7835f2de42909b7e999e79da4494)
+![ingress](/Images/ingress.png)
 
 Standard feature of ingress controllers may include:
 
@@ -94,7 +94,7 @@ volumes:
        # this field is optional
         type" directory
 ```
-![shot from 2025-07-25 11-44-48.png](:/e2ffb1470d2f44fd8408bd6645c58bf9)
+![ volume ](/Images/volume.png)
 
 Volumes allow sharinf data within multiple pods within the same cluster and also between multiple containers within the same pod.
 This provides great flexibility when you want to use a sidecar Pattern.
@@ -156,7 +156,7 @@ The example shows a PersistentVolume that uses an AWS EBS volume implemented wit
 
 ___
 It is possible to operate storage clusters directly in Kubernetes. Projects like Rook provide cloud-native storage orchestration and integrate with battle tested storage solutions like Ceph.
-![shot from 2025-07-25 12-09-44.png](:/cb5b388b849f4bfb8efd6b65eda7e1c1)
+![rook architecture](/Images/rook_arch.png)
 ____
 Configuring Objects
 -
