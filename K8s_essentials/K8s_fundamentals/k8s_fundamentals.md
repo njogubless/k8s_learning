@@ -3,7 +3,7 @@ K8s consists of two server node types that make up a cluster.
 - Control plane nodes contain components that manage the cluster and control tasks like deployment, scheduling and self-healing of containerized workloads.
 `Worker nodes`
 - The worker nodes are where applications run in the cluster.
-  ![Screenshot from 2025-07-19 19-38-13.png](:/4b945495798a4fb6bb68d2b39aa30dbd)
+  ![volume](/Images/volume.png)
 
 ___
 Kurbenetes Architecture
@@ -30,7 +30,7 @@ ____
 K8S API
 -
 without the API communication with the cluster is not possible, every user, component needs the api-server.
-![Screenshot from 2025-07-19 20-06-33.png](:/3fbb24dd5c894900b48b8fe312e7ba04)
+![K8S_CLUSTER](/Images/k8s_cluster.png)
 
 Befor a request is processed by k8s it goes through : 
 1.` Authentication`- The requester needs to present a means of identity to authenticate against the API. Commonly done with a digital signed certificate (X.509) or with an external identity management system. Kubernetes users are always externally managed. Service Accounts can be used to authenticate technical users.
