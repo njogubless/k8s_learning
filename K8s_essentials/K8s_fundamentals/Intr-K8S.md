@@ -54,3 +54,42 @@ Kubernetes supports batch execution, long-running jobs, and replaces failed cont
 Kubernetes supports both IPv4 and IPv6 addresses.
 
 *Kubernetes supports common Platform as a Service specific features such as application deployment, scaling, and load balancing, but allows users to integrate their desired monitoring, logging and alerting solutions through optional plugins.*
+
+
+## Cloud Native Computing Foundation (CNCF)
+The Cloud Native Computing Foundation (CNCF) is one of the largest sub-projects hosted by the Linux Foundation. CNCF aims to accelerate the adoption of containers, microservices, and cloud native applications.
+
+CNCF hosts a multitude of projects, with more to be added in the future. CNCF provides resources to each of the projects, but, at the same time, each project continues to operate independently under its pre-existing governance structure and with its existing maintainers. Projects within CNCF are categorized based on their maturity levels: Sandbox, Incubating, and Graduated. At the time of this writing, over a dozen projects had reached Graduated status with many more Incubating and in the Sandbox.
+
+Popular graduated projects (as of March 2024):
+
+- Kubernetes container orchestrator
+- Argo workflow engine for Kubernetes
+- etcd distributed key-value store
+- CoreDNS DNS server
+- containerd container runtime
+- CRI-O container runtime
+- Envoy cloud native proxy
+- Fluentd for unified logging
+- Flux continuous delivery for Kubernetes
+- Harbor registry
+- Helm package management for Kubernetes
+- Linkerd service mesh for Kubernetes
+- Open Policy Agent policy engine
+- Prometheus monitoring system and time series DB
+- Rook cloud native storage orchestrator for Kubernetes
+
+Key incubating projects:
+
+- Buildpacks.io builds application images
+- Contour ingress controller for Kubernetes
+- gRPC for remote procedure call (RPC)
+- CNI for Linux containers networking
+- Knative serverless containers in Kubernetes
+- KubeVirt Kubernetes based Virtual Machine manager
+- Notary for data security
+And many more.
+
+There are many dynamic projects in the CNCF Sandbox geared towards metrics, monitoring, identity, scripting, serverless, nodeless, edge, expecting to achieve Incubating and possibly Graduated status. While many active projects are preparing for takeoff, others are being archived once they become less active and no longer in demand. The first projects to be archived are the rkt container runtime, the distributed OpenTracing, Brigade event driven automation tool, and Service Mesh Interface.
+
+The projects under CNCF cover the entire lifecycle of a cloud native application, from its execution using container runtimes, to its monitoring and logging. This is very important to meet the goals of CNCF.
