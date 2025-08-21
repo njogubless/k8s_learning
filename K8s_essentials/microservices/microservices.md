@@ -39,3 +39,20 @@ A number of factors are considered to determine if a monolith is a suitable cand
  Running independent modules on their own server  to separate their dependencies asa a solution for the conflicts is not ideal in regards to resource allocatin for each service, since all servers could run Operating Systems underneath and probably the module in deployement does not consume as much resource as the OS operating within, with this came Containers as a solution. 
 
  *Eventually a solution emerged to tackle these refactoring challenges. Application containers came along providing encapsulated lightweight runtime environments for application modules. Containers promised consistent software environments for developers, testers, all the way from Development to Production. Wide support of containers ensured application portability from physical bare-metal to Virtual Machines, but this time with multiple applications deployed on the very same server, each running in their own execution environments isolated from one another, thus avoiding conflicts, errors, and failures. Other features of containerized application environments are higher server utilization, individual module scalability, flexibility, interoperability and easy integration with automation tools.*
+
+ ### Benefits
+ - Improved fault isolation- when one system goes down not all will go down
+ - Eliminate vendor or technology lock-in- because microservices run on open source
+ - technologies..not restricted or limited
+ - Smaller making them easier to comprehend
+ - Smaller and faster deployments and easirt to scale
+
+ ### DrawBacks
+  Complexity is added to resolve complexity issues-
+      - Is your team trained, ready and has made Proof of Concept,
+      - make sure to start small adding one piece of DevOps practise at a time, don't implement everything.
+ - Many microservices can provide an issue with deployement because of having too many teams.
+ - Multiple Databasess..
+ - Latency issues- calls between microservices will go through API's so this can provide latency issues,make sure to test it before hand. 
+ - Transient errors, a call will provide an error now and work after 50 seconds later on, implement many re-try strategies or use service mesh.
+ - Instead of one big point of failure, you will have multiple, the question is will your system survive that ?
