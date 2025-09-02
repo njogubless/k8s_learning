@@ -1,0 +1,76 @@
+# 1. CronJob: enqueue 1000 tasks every Monday 08:00
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: weekly-task-enqueuer
+spec:
+  schedule: "0 8 * * 1"   # Every Monday 08:00
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: enqueuer
+            image: your-org/enqueuer:latest
+            args:
+            - /bin/sh
+            - -c
+            - |
+              echo "Enqueuing 1000 tasks into RabbitMQ..."
+              for i in $(seq 1 1000); do
+                echo "task-$i" | ./enqueue-task --queue rabbitmq://tasks
+              done
+          restartPolicy: OnFailure
+
+---
+# 2. Worker Deployment: processes tasks from queue
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: batch-workers
+spec:
+  replicas: 0   # start with zero; autoscaler will control
+  selector:
+    matchLabels:
+      app: batch-worker
+  template:
+    metadata:
+      labels:
+        app: batch-worker
+    spec:
+      containers:
+      - name: worker
+        image: your-org/batch-worker:latest
+        args:
+        - /bin/sh
+        - -c
+        - "python worker.py --queue rabbitmq://tasks"
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "1"
+            memory: "2Gi"
+
+---
+# 3. Autoscaler: scale workers based on queue backlog (external metric)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: batch-worker-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: batch-workers
+  minReplicas: 0
+  maxReplicas: 500   # cluster autoscaler will add/remove nodes
+  metrics:
+  - type: External
+    external:
+      metric:
+        name: rabbitmq_queue_backlog   # provided by metrics adapter
+      target:
+        type: Value
+        value: "50"   # keep ~50 tasks per worker
