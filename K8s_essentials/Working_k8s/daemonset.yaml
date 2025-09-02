@@ -1,0 +1,25 @@
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-example
+  labels:
+    apps: daemonseet-example
+  spec:
+  selectors:
+    matchlabels:
+        app: daemonset-example 
+  template:
+    metadata:
+      labels:
+         apps: daemonset-example
+    spec:
+      tolerations: 
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: busybox
+        image: busybox
+        args:
+        - sleep
+        - " 10000"
