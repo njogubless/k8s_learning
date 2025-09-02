@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: batch-workers
+spec:
+  replicas: 0   # Start with zero; scale up dynamically
+  selector:
+    matchLabels:
+      app: batch-worker
+  template:
+    metadata:
+      labels:
+        app: batch-worker
+    spec:
+      containers:
+      - name: worker
+        image: your-org/batch-worker:latest
+        args:
+        - /bin/sh
+        - -c
+        - "python worker.py --queue rabbitmq://tasks"
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: batch-worker-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: batch-workers
+  minReplicas: 0
+  maxReplicas: 500   # upper bound
+  metrics:
+  - type: External
+    external:
+      metric:
+        name: queue_backlog
+      target:
+        type: Value
+        value: "50"   # keep ~50 tasks per worker
+
+
+#Instead of telling Kubernetes “spawn 1000 Pods,” you run a queue system (e.g., RabbitMQ, SQS, Kafka, or even a Kubernetes-native JobQueue pattern).
+#You create 1000 tasks in the queue.
+#You run a Deployment of worker Pods.
+#Cluster Autoscaler + HPA (Horizontal Pod Autoscaler) dynamically adjusts Pod count depending on backlog / CPU load.
+#your queue system reports backlog size → HPA scales Pods up/down.
+#No need to decide parallelism upfront — the system self-adjusts.
