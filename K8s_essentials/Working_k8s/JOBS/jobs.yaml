@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: weekly-batch
+spec:
+  # Run every Monday at 08:00
+  schedule: "0 8 * * 1"
+  jobTemplate:
+    spec:
+      completions: 1000         # total jobs to run
+      parallelism: 1000         # run all in parallel (cluster must scale up)
+      template:
+        spec:
+          containers:
+          - name: batch-task
+            image: your-org/batch-processor:latest
+            args:
+            - /bin/sh
+            - -c
+            - "echo Processing data... && sleep 3600"
+            # Replace with your real data processing command
+          restartPolicy: OnFailure
+
+
+
+# 🔑 Explanation
+#schedule: "0 8 * * 1" → runs every Monday at 8 AM.
+#completions: 1000 → total number of Pods that must succeed.
+#parallelism: 1000 → run all at once (if you want to spread them out, lower this).
+#restartPolicy: OnFailure → retries failed Pods.
+#With Cluster Autoscaler enabled, Kubernetes will request enough nodes to run these 1000 Pods, then scale back down once finished.
+#If you want to use spot/preemptible nodes only, you’d add a nodeSelector or taints/tolerations in template.spec to ensure Pods schedule on cheaper nodes.
+#Do you want me to also show you how to tune this for partial parallelism (e.g. only 200 jobs at a time to reduce cluster size but still finish before Monday night)?
