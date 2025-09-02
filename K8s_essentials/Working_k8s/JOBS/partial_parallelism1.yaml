@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: weekly-batch
+spec:
+  schedule: "0 8 * * 1"   # Every Monday 08:00
+  jobTemplate:
+    spec:
+      completions: 1000    # total jobs required
+      parallelism: 200     # run at most 200 Pods at a time
+      backoffLimit: 2      # retry failed Pods (default=6, adjust if needed)
+      template:
+        spec:
+          containers:
+          - name: batch-task
+            image: your-org/batch-processor:latest
+            args:
+            - /bin/sh
+            - -c
+            - "echo Processing data... && sleep 3600"
+          restartPolicy: OnFailure
+
+
+#Each Pod ~ 1h runtime.
+#parallelism: 200 → 200 Pods run concurrently.
+#Total completions = 1000 / 200 = 5 waves → ~5 hours (plus some scheduling overhead).
+#So you still finish comfortably before Monday night without needing a 1000-Pod burst.
+#Why this helps
+#Cost-efficient: Cluster Autoscaler only provisions ~200 Pods worth of nodes.
+#More resilient: If some Pods fail, retries don’t overload the cluster.
+#Predictable runtime: You can calculate waves × pod runtime to ensure SLA.
