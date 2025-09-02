@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: weekly-batch-partial
+spec:
+  # Run every Monday at 08:00
+  schedule: "0 8 * * 1"
+  jobTemplate:
+    spec:
+      completions: 1000         # total jobs
+      parallelism: 200          # only 200 Pods at once
+      backoffLimit: 2           # retry failed Pods twice
+      template:
+        spec:
+          containers:
+          - name: batch-task
+            image: your-org/batch-processor:latest
+            args:
+            - /bin/sh
+            - -c
+            - "echo Processing data... && sleep 3600"
+          restartPolicy: OnFailure
