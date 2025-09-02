@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: weekly-batch-
+spec:
+  entrypoint: process-tasks
+  parallelism: 200   # throttle globally
+  templates:
+  - name: process-tasks
+    array:
+      size: 1000
+    container:
+      image: your-org/batch-processor:latest
+      command: ["/bin/sh", "-c"]
+      args: ["echo Processing item {{item}} && sleep 3600"]
+
+
+# 🔑 Explanation
+#1000 tasks are defined in one workflow.
+#Argo enforces concurrency limits automatically (parallelism: 200).
+#Workflow Controller handles retries, dependencies, and logs.
+#🔑 Difference from plain CronJob
+#CronJob = static → you decide parallelism vs completions.
+#WorkQueue / Argo = dynamic → Kubernetes + autoscaler adapts based on resources and backlog.
+#⚡ Recommendation:
+#If you already run Kubernetes + Cloud Provider Autoscaler → use Work Queue + HPA for elasticity.
+#If you want workflow DAGs, retries, visibility dashboards → use Argo Workflows.
